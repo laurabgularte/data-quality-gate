@@ -1,0 +1,14 @@
+{
+  "required_columns": ["id_registro", "data_referencia", "codigo_unidade", "status", "quantidade"],
+  "unique_columns": ["id_registro"],
+  "not_null_columns": ["id_registro", "data_referencia", "codigo_unidade", "status"],
+  "date_columns": ["data_referencia"],
+  "numeric_columns": {
+    "quantidade": {
+      "min": 0
+    }
+  },
+  "allowed_values": {
+    "status": ["ATIVO", "PENDENTE", "CONCLUIDO"]
+  }
+}
