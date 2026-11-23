@@ -19,19 +19,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p_val = sub.add_parser(
-        "validate", help="Valida uma planilha CSV/XLSX contra um schema JSON."
-    )
+    p_val = sub.add_parser("validate", help="Valida uma planilha CSV/XLSX contra um schema JSON.")
     p_val.add_argument("input_file", help="Caminho do arquivo .csv, .xlsx ou .xls")
-    p_val.add_argument(
-        "--schema", required=True, help="Caminho do arquivo JSON com regras"
-    )
-    p_val.add_argument(
-        "--out", default="saida", help="Pasta de saída dos relatórios e arquivos"
-    )
-    p_val.add_argument(
-        "--sheet", default="0", help="Nome ou índice da aba (para Excel)"
-    )
+    p_val.add_argument("--schema", required=True, help="Caminho do arquivo JSON com regras")
+    p_val.add_argument("--out", default="saida", help="Pasta de saída dos relatórios e arquivos")
+    p_val.add_argument("--sheet", default="0", help="Nome ou índice da aba (para Excel)")
 
     return parser
 
@@ -53,14 +45,10 @@ def main(argv: list[str] | None = None) -> int:
         out_dir.mkdir(parents=True, exist_ok=True)
 
         report.valid_df.to_csv(out_dir / "validos.csv", index=False, encoding="utf-8")
-        report.rejected_df.to_csv(
-            out_dir / "erros_validacao.csv", index=False, encoding="utf-8"
-        )
+        report.rejected_df.to_csv(out_dir / "erros_validacao.csv", index=False, encoding="utf-8")
 
         issues_df = pd.DataFrame([asdict(i) for i in report.issues])
-        issues_df.to_csv(
-            out_dir / "detalhes_problemas.csv", index=False, encoding="utf-8"
-        )
+        issues_df.to_csv(out_dir / "detalhes_problemas.csv", index=False, encoding="utf-8")
 
         summary = report.to_summary_dict()
         (out_dir / "relatorio_qualidade.json").write_text(
